@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Script MLBB Visal Modz</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d1b2a;
+color:white;
+}
+
+/* HEADER */
+
+header{
+background:#14213d;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+/* SEARCH */
+
+.search{
+padding:15px;
+text-align:center;
+}
+
+.search input{
+width:80%;
+padding:10px;
+border:none;
+border-radius:20px;
+}
+
+/* HERO LIST */
+
+.container{
+padding:15px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+gap:15px;
+}
+.card{
+background:#1b263b;
+border-radius:12px;
+padding:10px;
+text-align:center;
+cursor:pointer;
+transition:0.25s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px #fca311;
+}
+
+.card img{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:10px;
+}
+.btn{
+background:linear-gradient(45deg,#ff4d4d,#ff0000);
+border:none;
+padding:10px;
+margin-top:8px;
+border-radius:8px;
+font-weight:bold;
+color:white;
+width:100%;
+cursor:pointer;
+}
+
+.back{
+margin:15px;
+padding:10px;
+background:#fca311;
+border:none;
+border-radius:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header id="title">
+Script MLBB Visal Modz
+</header>
+
+<div class="search">
+<input type="text" placeholder="Cari Hero..." onkeyup="searchHero(this.value)">
+</div>
+
+<div class="container" id="heroList"></div>
+<footer>
+<p>© 2026 Visal.com</p>
+<p>⚠ Website ini masih tahap Beta</p>
+<p>Wajar jika masih ada error</p>
+</footer>
+<header>
+    <h6>MENU</h6>
+    <nav>
+    <a href="index.html">Home</a>
+    <a href="https://www.youtube.com/@VisalModz">Youtube</a>
+    <a href="https://saweria.co/Visal111">Dukung Kami</a>
+</nav>
+</header>
+<script>
+
+let heroes = [
+
+{
+name:"Suyou",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRva2u15YNVlHWzOuD2G_kcdJNuhE2J94Pu6Pd-nTlzKNXFGdnxLE_Z7AIu&s=10",
+skins:[
+{
+name:"Sasuke",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8FQwNx2nbnOgKWJy2VQP4Qo4st8sOkj5OlGZYq1Hn9kyNjN6bFIU-RlM&s=10",
+link:"https://sfile.co/fJtB7GmjqQX"
+},
+{
+name:"Tidak Ditemukan",
+img:"Visal.png",
+link:"#"
+}
+]
+},
+
+{
+name:"Xavier",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROv5u0cxM9yg3B-NLEzVb0_cOs6mjy61qzqTNmkHNHuz_4SIFY_dbwWE9f&s=10",
+skins:[
+{
+name:"Gojo Satoru",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC2vXn28C4OeDvK3w-A0nKd6GXEuWqS5ihzf2fvnAhJu2sQYRt0AIE6Dgg&s=10",
+link:"https://sfile.co/fJtB7GmjqQX"
+},
+{
+name:"Collector",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHv3WxNUuk8cw5_EDHrLuVlG--Z-ZCWlkZXhkbFEv6jURvnzVSwL_TwcY&s=10",
+link:"https://sfile.co/kudVIfFk8lk"
+},
+{
+name:"BTC",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBubDv6gqyN7HhLfTQQPsTQxrz5vFCINCIIqer10FiwMIRgpN0tCytYqVI&s=10",
+link:"https://sfile.co/sIGLOcikap4"
+},
+]
+},
+
+{
+name:"Julian",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmxDt9gaz_ueWabBp64LV7VQTxsTbtwstdd1vCuZZlmWmCYhDO9QBHkMw&s=10",
+skins:[
+{
+name:"Megumi Fushiguro",
+img:"https://assets.pikiran-rakyat.com/crop/0x0:0x0/1200x675/photo/2025/02/07/539996748.jpg",
+link:"https://sfile.co/pcL8vpovua9"
+},
+{
+name:"Mesty meow",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73IeUTPxopoYQ2bhuw_6fQeyH9vCsBvlzi5r6bG2uzNaPjROrrjqMdvww&s=10",
+link:"https://sfile.co/Zlf8xzQbOXO"
+},
+{
+name:"Hunter X Hunter",
+img:"https://d1x91p7vw3vuq8.cloudfront.net/itemku-upload/20241231/lgduw01bwkzo0diuk3jlj_thumbnail.jpg",
+link:"https://sfile.co/YWYnElxWuOX"
+},
+{
+name:"Itachi",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbLsloQhfW3Zp06bnG5jivWjWhJ5BbNKQUS--khJbsIrb2a1KF6MKEDE&s=10",
+link:"https://sfile.co/gMUO9n2T3kO"
+}
+]
+},
+
+{
+name:"Lukas",
+img:"https://cdn.oneesports.id/cdn-data/sites/2/2024/12/MLBB_Lukas_splashart-1024x576-1-1.jpg",
+skins:[
+{
+name:"Naruto",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmrjXxxxRt9uYTmwzaI6Buax6_dawefg4LQcH48BuzRi4mJmw6YcKPo-YA&s=10",
+link:"https://sfile.co/S3UqbOaxdjx"
+},
+]
+},
+
+{
+name:"Gusion",
+img:"https://api.duniagames.co.id/optimize-image?url=https%3A%2F%2Fapi.duniagames.co.id%2Fapi%2Fcontent%2Fupload%2Ffile%2F17363837011579493249.jpg&format=webp&width=736&signature=ba9a7032ec6f7d95409c09a7317231be2f38103f6da0d29357cd2bf01b556532",
+skins:[
+{
+name:"Minato",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw666knWmuAY79eGtOwpMEgVGFXEUbndPIeR0lnl4A7A&s=10",
+link:"https://sfile.co/VYJtIBe2P8Z"
+},
+{
+name:"Legend",
+img:"https://i.ytimg.com/vi/h1zWYXgg5xM/mqdefault.jpg",
+link:"https://sfile.co/T5aQnc9RP8l"
+},
+{
+name:"Collector",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUit6aOtARSSiNF5pnRMCsV7A6V7TKEoIahYb2Bfu0m3TENf30GpknwpNR&s=10",
+link:"https://sfile.co/nkAfUeYtUF3"
+},
+{
+name:"11.11",
+img:"https://d1x91p7vw3vuq8.cloudfront.net/itemku-upload/2025115/huha9smhy99r6s5szv23.jpg",
+link:"https://sfile.co/XuQ2Brf5wWU"
+},
+{
+name:"Starlight Spider",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1ztjtf8kCy0_j_gLB0_VfK-rzVHzGiN1Sq4LUXwK6vycY2g3bQnoAIBU&s=10",
+link:"https://sfile.co/PwO6Xqe3bar"
+},
+{
+name:"Old Starlight",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJzXek5Kq7IP_DiczxOqvgOMr9F8JaoZfbM-ooNVoS77ZwOzgpbjgx7xU&s=10",
+link:"https://sfile.co/rRDds3i1RTD"
+},
+]
+},
+{
+name:"Fany",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEZ3yIcvuJK_mCvgCUL1MhBtFGBuiVGnbCNcNRFQp7Sw&s=10",
+skins:[
+{
+name:"Luckybox",
+img:"https://imgop.itemku.com/?url=https%3A%2F%2Fd1x91p7vw3vuq8.cloudfront.net%2Fweb%2F20210224%2Fb086d8292cd40b4bac05e3fb398136384202e8fe2e8aba232c5327afc05e05fa_thumb.jpg&w=1033&q=10",
+link:"https://sfile.co/h17UaKElhOX"
+},
+{
+name:"Tidak Ditemukan",
+img:"Visal.png",
+link:"#"
+}
+]
+},
+
+]
+
+let heroContainer=document.getElementById("heroList")
+
+function showHeroes(){
+
+heroContainer.innerHTML=""
+
+heroes.forEach(hero=>{
+
+heroContainer.innerHTML+=`
+
+<div class="card" onclick="openHero('${hero.name}')">
+
+<img src="${hero.img}">
+<h3>${hero.name}</h3>
+
+</div>
+
+`
+
+})
+
+}
+
+showHeroes()
+
+function openHero(heroName){
+
+let hero=heroes.find(h=>h.name==heroName)
+
+document.getElementById("title").innerText="Skin "+hero.name
+
+heroContainer.innerHTML=`<button class="back" onclick="showHeroes()">← Kembali</button>`
+
+hero.skins.forEach(skin=>{
+
+heroContainer.innerHTML+=`
+
+<div class="card">
+
+<img src="${skin.img}">
+
+<h3>${skin.name}</h3>
+
+<button class="btn" onclick="download('${skin.link}')">Download</button>
+
+</div>
+
+`
+
+})
+
+}
+
+function download(link){
+
+alert("Menyiapkan Script...")
+
+window.location.href=link
+
+}
+
+function searchHero(text){
+
+let cards=document.querySelectorAll(".card")
+
+cards.forEach(card=>{
+
+let name=card.innerText.toLowerCase()
+
+if(name.includes(text.toLowerCase())){
+card.style.display="block"
+}else{
+card.style.display="none"
+}
+
+})
+
+}
+
+</script>
+
+</body>
+</html>
