@@ -16,176 +16,138 @@ box-sizing:border-box;
 .trailer iframe{
 border-radius:10px;
 }
-/* BODY & HEADER */
+
 body{
-  margin:0;
-  font-family:Arial;
-  background:#990000; /* merah */
-  color:white;
+margin:0;
+font-family:Arial;
+background:#990000;
+color:white;
 }
 
-/* HEADER */
 header{
-  background:#990000; /* merah gelap */
-  padding:15px;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
+background:#990000;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
 }
 
-/* SEARCH */
 .search{
-  padding:15px;
-  text-align:center;
+padding:15px;
+text-align:center;
 }
 
 .search input{
-  width:80%;
-  padding:10px;
-  border:none;
-  border-radius:20px;
-  outline:none;
-  background:#330000;
-  color:white;
+width:80%;
+padding:10px;
+border:none;
+border-radius:20px;
+outline:none;
+background:#330000;
+color:white;
 }
 
-/* HERO LIST */
 .container{
-  padding:15px;
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-  gap:15px;
+padding:15px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+gap:15px;
 }
 
-/* CARD */
 .card{
-  background:#000000; /* hitam */
-  border-radius:12px;
-  padding:10px;
-  text-align:center;
-  cursor:pointer;
-  transition: all 0.4s ease, transform 0.3s ease;
-  opacity: 0;
-  transform: translateY(20px);
+background:#000000;
+border-radius:12px;
+padding:10px;
+text-align:center;
+cursor:pointer;
+transition: all 0.4s ease, transform 0.3s ease;
+opacity:0;
+transform: translateY(20px);
 }
 
 .card.show{
-  opacity:1;
-  transform: translateY(0);
+opacity:1;
+transform: translateY(0);
 }
 
 .card:hover{
-  transform: translateY(-10px) scale(1.08);
-  box-shadow: 0 8px 20px rgba(252, 163, 17, 0.5);
+transform: translateY(-10px) scale(1.08);
+box-shadow:0 8px 20px rgba(252,163,17,0.5);
 }
 
 .card img{
-  width:100%;
-  height:120px;
-  object-fit:cover;
-  border-radius:10px;
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:10px;
 }
 
 .btn{
-  background:linear-gradient(45deg,#ff4d4d,#ff0000);
-  border:none;
-  padding:10px;
-  margin-top:8px;
-  border-radius:8px;
-  font-weight:bold;
-  color:white;
-  width:100%;
-  cursor:pointer;
+background:linear-gradient(45deg,#ff4d4d,#ff0000);
+border:none;
+padding:10px;
+margin-top:8px;
+border-radius:8px;
+font-weight:bold;
+color:white;
+width:100%;
+cursor:pointer;
 }
 
 .back{
-  margin:15px;
-  padding:10px;
-  background:#9999;
-  border:none;
-  border-radius:8px;
-  color:white;
-  cursor:pointer;
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:15px;
-  font-size:14px;
-  color:#fff1c2;
-  background:#990000;
-}
-
-/* LOADING SCREEN */
-#loader {
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:#9999;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-  font-size:24px;
-  color:#fca311;
-  font-weight:bold;
-}
-
-.comment-box{
-margin-top:10px;
-background:#111;
+margin:15px;
 padding:10px;
-border-radius:8px;
-}
-
-.comment-box input{
-width:100%;
-padding:8px;
-margin-top:5px;
+background:#9999;
 border:none;
-border-radius:6px;
-background:#222;
+border-radius:8px;
 color:white;
-font-size:13px;
+cursor:pointer;
 }
 
-.comment{
-background:#222;
-padding:6px;
-margin-top:5px;
-border-radius:6px;
-font-size:12px;
+footer{
+text-align:center;
+padding:15px;
+font-size:14px;
+color:#fff1c2;
+background:#990000;
+}
+
+#loader{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#9999;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+font-size:24px;
+color:#fca311;
+font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
 <div id="loader">Loading...</div>
 
 <header id="title">
 Script MLBB Visal Modz
-</header><div class="trailer">
+</header>
 
+<div class="trailer">
 <iframe
 width="100%"
 height="220"
-src="https://www.youtube.com/embed/kutLBPp4XUY?si=qL3iGWixsoolnqsd?autoplay=1&mute=1&controls=0&rel=0"
-title="Trailer"
+src="https://www.youtube.com/embed/kutLBPp4XUY?autoplay=1&mute=1&controls=0&rel=0"
 allow="autoplay; encrypted-media"
 allowfullscreen>
-
 </iframe>
-
 </div>
 
-
-
-</div>
 <div class="search">
 <input type="text" placeholder="Cari Hero..." onkeyup="searchHero(this.value)">
 </div>
@@ -199,50 +161,48 @@ allowfullscreen>
 </footer>
 
 <header>
-    <h6>MENU</h6>
-    <nav>
-    <a href="index.html" style="color:white; margin-right:10px;">Home</a>
-    <a href="https://www.youtube.com/@VisalModz" style="color:white; margin-right:10px;">Youtube</a>
-    <a href="https://saweria.co/Visal111" style="color:white;">Dukung Kami</a>
-    </nav>
+<h6>MENU</h6>
+<nav>
+<a href="index.html" style="color:white;margin-right:10px;">Home</a>
+<a href="https://www.youtube.com/@VisalModz" style="color:white;margin-right:10px;">Youtube</a>
+<a href="https://saweria.co/Visal111" style="color:white;">Dukung Kami</a>
+</nav>
 </header>
 
-<button onclick="adminLogin()" style="margin:10px;padding:8px;background:black;color:white;border:none;border-radius:6px;">
-Admin Mode
-</button>
+<script>
 
-<script>let adminPassword = "Admin Visal"
-let isAdmin = false
-let loginTry = 0
+let heroes=[
 
-let heroes = [
 {
 name:"Suyou",
 img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRva2u15YNVlHWzOuD2G_kcdJNuhE2J94Pu6Pd-nTlzKNXFGdnxLE_Z7AIu&s=10",
 skins:[
-{ name:"Sasuke", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8FQwNx2nbnOgKWJy2VQP4Qo4st8sOkj5OlGZYq1Hn9kyNjN6bFIU-RlM&s=10", link:"https://sfile.co/s1VB4HbxS5A" },
-{ name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
+{name:"Sasuke",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8FQwNx2nbnOgKWJy2VQP4Qo4st8sOkj5OlGZYq1Hn9kyNjN6bFIU-RlM&s=10",link:"https://sfile.co/s1VB4HbxS5A"},
+{name:"Tidak Ditemukan",img:"Visal.png",link:"#"}
 ]
 },
+
 {
 name:"Xavier",
 img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROv5u0cxM9yg3B-NLEzVb0_cOs6mjy61qzqTNmkHNHuz_4SIFY_dbwWE9f&s=10",
 skins:[
-{ name:"Gojo Satoru", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC2vXn28C4OeDvK3w-A0nKd6GXEuWqS5ihzf2fvnAhJu2sQYRt0AIE6Dgg&s=10", link:"https://sfile.co/fJtB7GmjqQX" },
-{ name:"Collector", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHv3WxNUuk8cw5_EDHrLuVlG--Z-ZCWlkZXhkbFEv6jURvnzVSwL_TwcY&s=10", link:"https://sfile.co/kudVIfFk8lk" },
-{ name:"BTC", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBubDv6gqyN7HhLfTQQPsTQxrz5vFCINCIIqer10FiwMIRgpN0tCytYqVI&s=10", link:"https://sfile.co/sIGLOcikap4"}
+{name:"Gojo Satoru",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC2vXn28C4OeDvK3w-A0nKd6GXEuWqS5ihzf2fvnAhJu2sQYRt0AIE6Dgg&s=10",link:"https://sfile.co/fJtB7GmjqQX"},
+{name:"Collector",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHv3WxNUuk8cw5_EDHrLuVlG--Z-ZCWlkZXhkbFEv6jURvnzVSwL_TwcY&s=10",link:"https://sfile.co/kudVIfFk8lk"},
+{name:"BTC",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBubDv6gqyN7HhLfTQQPsTQxrz5vFCINCIIqer10FiwMIRgpN0tCytYqVI&s=10",link:"https://sfile.co/sIGLOcikap4"}
 ]
 },
+
 {
 name:"Julian",
 img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmxDt9gaz_ueWabBp64LV7VQTxsTbtwstdd1vCuZZlmWmCYhDO9QBHkMw&s=10",
 skins:[
-{ name:"Megumi Fushiguro", img:"https://assets.pikiran-rakyat.com/crop/0x0:0x0/1200x675/photo/2025/02/07/539996748.jpg", link:"https://sfile.co/pcL8vpovua9" },
-{ name:"Mesty meow", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73IeUTPxopoYQ2bhuw_6fQeyH9vCsBvlzi5r6bG2uzNaPjROrrjqMdvww&s=10", link:"https://sfile.co/Zlf8xzQbOXO" },
-{ name:"Hunter X Hunter", img:"https://d1x91p7vw3vuq8.cloudfront.net/itemku-upload/20241231/lgduw01bwkzo0diuk3jlj_thumbnail.jpg", link:"https://sfile.co/YWYnElxWuOX" },
-{ name:"Itachi", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbLsloQhfW3Zp06bnG5jivWjWhJ5BbNKQUS--khJbsIrb2a1KF6MKEDE&s=10", link:"https://sfile.co/gMUO9n2T3kO"}
+{name:"Megumi Fushiguro",img:"https://assets.pikiran-rakyat.com/crop/0x0:0x0/1200x675/photo/2025/02/07/539996748.jpg",link:"https://sfile.co/pcL8vpovua9"},
+{name:"Mesty meow",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73IeUTPxopoYQ2bhuw_6fQeyH9vCsBvlzi5r6bG2uzNaPjROrrjqMdvww&s=10",link:"https://sfile.co/Zlf8xzQbOXO"},
+{name:"Hunter X Hunter",img:"https://d1x91p7vw3vuq8.cloudfront.net/itemku-upload/20241231/lgduw01bwkzo0diuk3jlj_thumbnail.jpg",link:"https://sfile.co/YWYnElxWuOX"},
+{name:"Itachi",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbLsloQhfW3Zp06bnG5jivWjWhJ5BbNKQUS--khJbsIrb2a1KF6MKEDE&s=10",link:"https://sfile.co/gMUO9n2T3kO"}
 ]
 },
+
 {
 name:"Lukas",
 img:"https://cdn.oneesports.id/cdn-data/sites/2/2024/12/MLBB_Lukas_splashart-1024x576-1-1.jpg",
@@ -250,6 +210,7 @@ skins:[
 { name:"Naruto", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmrjXxxxRt9uYTmwzaI6Buax6_dawefg4LQcH48BuzRi4mJmw6YcKPo-YA&s=10", link:"https://sfile.co/S3UqbOaxdjx"}
 ]
 },
+
 {
 name:"Gusion",
 img:"https://api.duniagames.co.id/optimize-image?url=https%3A%2F%2Fapi.duniagames.co.id%2Fapi%2Fcontent%2Fupload%2Ffile%2F17363837011579493249.jpg&format=webp&width=736&signature=ba9a7032ec6f7d95409c09a7317231be2f38103f6da0d29357cd2bf01b556532",
@@ -262,6 +223,7 @@ skins:[
 { name:"K", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrc2Vk-s_AbuwNAfRfQhDzL1FtIZBWimKbiJ6FSQFvEA&s", link:"https://sfile.co/TJYW1vYqN5J"}
 ]
 },
+
 {
 name:"Fany",
 img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEZ3yIcvuJK_mCvgCUL1MhBtFGBuiVGnbCNcNRFQp7Sw&s=10",
@@ -270,6 +232,7 @@ skins:[
 { name:"Legend", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9pSJyWStdDzQNOPWahsIumOBuvYFUU2Qx6G2ElTHvuAd3dMFpBgwN7Olb&s=10", link:"#"}
 ]
 },
+
 {
 name:"Yin sun sin",
 img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO3IJiKOsDOXrWCBweR8L_xIEHrGdwSfkvIFkiVw5ryA&s=10",
@@ -278,6 +241,7 @@ skins:[
 { name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
 ]
 },
+
 {
 name:"Chou",
 img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xASwP2x4CxLfPrCYMoShy9tj57ERb1g45QWvXjTNXLewbsi4_K4BU8c&s=10",
@@ -286,195 +250,114 @@ skins:[
 { name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
 ]
 },
+
 {
 name:"Lancelot",
 img:"https://cdn.oneesports.gg/cdn-data/2021/09/MLBB_Lancelot.jpg",
 skins:[
-{ name:"Lori Yagami", img:"https://i.pinimg.com/736x/43/2a/4c/432a4cdb707ec6767e116ff9bb3f853d.jpg", link:"#" },
+{ name:"Aamon", img:"https://i.pinimg.com/736x/43/2a/4c/432a4cdb707ec6767e116ff9bb3f853d.jpg", link:"#" },
 { name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
 ]
-}
+},
+
 ]
 
 let heroContainer=document.getElementById("heroList")
-function addComment(id,input){
-
-let text=input.value.trim()
-
-if(text=="") return
-
-let data=JSON.parse(localStorage.getItem("comments_"+id))||[]
-
-data.push(text)
-
-localStorage.setItem("comments_"+id,JSON.stringify(data))
-
-input.value=""
-
-loadComments(id)
-
-}
-function loadComments(id){
-
-let box=document.getElementById("comment-"+id)
-
-if(!box) return
-
-let data=JSON.parse(localStorage.getItem("comments_"+id))||[]
-
-box.innerHTML=""
-
-data.forEach((c,index)=>{
-
-let del=""
-
-if(isAdmin){
-del=`<span onclick="deleteComment('${id}',${index})" style="float:right;color:red;cursor:pointer;">❌</span>`
-}
-
-box.innerHTML+=`
-<div class="comment">
-${c}
-${del}
-</div>
-`
-
-})
-
-}
-
 
 function showHeroes(){
-  heroContainer.innerHTML=""
-  heroes.forEach(hero=>{
-    heroContainer.innerHTML+=`
-      <div class="card" onclick="openHero('${hero.name}')">
-        <img src="${hero.img}">
-        <h3>${hero.name}</h3>
-      </div>
-    `
-  })
-  fadeInCards();
+heroContainer.innerHTML=""
+
+heroes.forEach(hero=>{
+heroContainer.innerHTML+=`
+<div class="card" onclick="openHero('${hero.name}')">
+<img src="${hero.img}">
+<h3>${hero.name}</h3>
+</div>
+`
+})
+
+fadeInCards()
 }
 
 function openHero(heroName){
-  let hero=heroes.find(h=>h.name==heroName)
-  document.getElementById("title").innerText="Skin "+hero.name
 
-  heroContainer.innerHTML=`<button class="back" onclick="showHeroes()">← Kembali</button>`
+let hero=heroes.find(h=>h.name==heroName)
 
-  hero.skins.forEach((skin,index)=>{
+document.getElementById("title").innerText="Skin "+hero.name
 
-    let id = hero.name+"_"+index
+heroContainer.innerHTML=`<button class="back" onclick="showHeroes()">← Kembali</button>`
 
-    heroContainer.innerHTML+=`
-      <div class="card">
-        <img src="${skin.img}">
-        <h3>${skin.name}</h3>
+hero.skins.forEach(skin=>{
+heroContainer.innerHTML+=`
+<div class="card">
+<img src="${skin.img}">
+<h3>${skin.name}</h3>
+<button class="btn" onclick="download('${skin.link}')">Download</button>
+</div>
+`
+})
 
-        <button class="btn" onclick="download('${skin.link}')">Download</button>
+fadeInCards()
 
-        <div class="comment-box">
-        <input type="text" placeholder="Tulis komentar..." 
-        onkeydown="if(event.key==='Enter') addComment('${id}',this)">
-        <div id="comment-${id}"></div>
-        </div>
-
-      </div>
-    `
-  })
-
-  fadeInCards()
-
-  hero.skins.forEach((skin,index)=>{
-    loadComments(hero.name+"_"+index)
-  })
 }
 
 function searchHero(text){
-  let cards=document.querySelectorAll(".card")
-  cards.forEach(card=>{
-    let name=card.innerText.toLowerCase()
-    if(name.includes(text.toLowerCase())){
-      card.style.display="block"
-    }else{
-      card.style.display="none"
-    }
-  })
+
+let cards=document.querySelectorAll(".card")
+
+cards.forEach(card=>{
+
+let name=card.innerText.toLowerCase()
+
+if(name.includes(text.toLowerCase())){
+card.style.display="block"
+}else{
+card.style.display="none"
 }
 
-function fadeInCards() {
-  const cards = document.querySelectorAll(".card");
-  cards.forEach((card, index) => {
-    setTimeout(() => {
-      card.classList.add("show");
-    }, index * 150);
-  });
-}
-
-window.addEventListener("load", () => {
-  const loader = document.getElementById("loader");
-  setTimeout(() => {
-    loader.style.display = "none";
-  }, 1000);
-});
-
-showHeroes()
-function adminLogin(){
-
-let pass = prompt("Masukkan password admin")
-
-if(pass === adminPassword){
-
-isAdmin = true
-loginTry = 0
-
-alert("Admin mode aktif")
-
-document.querySelectorAll("[id^='comment-']").forEach(el=>{
-let id = el.id.replace("comment-","")
-loadComments(id)
 })
 
-}else{
+}
 
-loginTry++
+function fadeInCards(){
 
-alert("Password salah ("+loginTry+"/3)")
+const cards=document.querySelectorAll(".card")
 
-if(loginTry >= 3){
+cards.forEach((card,index)=>{
 
-alert("Terlalu banyak percobaan! Anda akan keluar dari website")
+setTimeout(()=>{
 
-window.location.href = "https://www.google.com"
+card.classList.add("show")
+
+},index*150)
+
+})
 
 }
 
-}
+window.addEventListener("load",()=>{
 
-}
+setTimeout(()=>{
 
-function deleteComment(id,index){
+document.getElementById("loader").style.display="none"
 
-let data=JSON.parse(localStorage.getItem("comments_"+id))||[]
+},1000)
 
-data.splice(index,1)
+})
 
-localStorage.setItem("comments_"+id,JSON.stringify(data))
-
-loadComments(id)
-
-}
 function download(link){
 
-if(link === "#"){
+if(link==="#"){
 alert("File tidak tersedia")
 return
 }
 
-window.open(link, "_blank")
+window.open(link,"_blank")
 
 }
+
+showHeroes()
+
 </script>
 
 </body>
