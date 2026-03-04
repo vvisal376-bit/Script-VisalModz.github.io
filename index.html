@@ -6,6 +6,16 @@
 <title>Script MLBB Visal Modz</title>
 
 <style>
+.trailer{
+width:100%;
+padding:10px;
+background:black;
+box-sizing:border-box;
+}
+
+.trailer iframe{
+border-radius:10px;
+}
 /* BODY & HEADER */
 body{
   margin:0;
@@ -159,8 +169,23 @@ font-size:12px;
 
 <header id="title">
 Script MLBB Visal Modz
-</header>
+</header><div class="trailer">
 
+<iframe
+width="100%"
+height="220"
+src="https://www.youtube.com/embed/kutLBPp4XUY?si=qL3iGWixsoolnqsd?autoplay=1&mute=1&controls=0&rel=0"
+title="Trailer"
+allow="autoplay; encrypted-media"
+allowfullscreen>
+
+</iframe>
+
+</div>
+
+
+
+</div>
 <div class="search">
 <input type="text" placeholder="Cari Hero..." onkeyup="searchHero(this.value)">
 </div>
@@ -186,9 +211,10 @@ Script MLBB Visal Modz
 Admin Mode
 </button>
 
-<script>
-let adminPassword = "Admin Visal"
+<script>let adminPassword = "Admin Visal"
 let isAdmin = false
+let loginTry = 0
+
 let heroes = [
 {
 name:"Suyou",
@@ -393,6 +419,7 @@ let pass = prompt("Masukkan password admin")
 if(pass === adminPassword){
 
 isAdmin = true
+loginTry = 0
 
 alert("Admin mode aktif")
 
@@ -403,7 +430,17 @@ loadComments(id)
 
 }else{
 
-alert("Password salah")
+loginTry++
+
+alert("Password salah ("+loginTry+"/3)")
+
+if(loginTry >= 3){
+
+alert("Terlalu banyak percobaan! Anda akan keluar dari website")
+
+window.location.href = "https://www.google.com"
+
+}
 
 }
 
