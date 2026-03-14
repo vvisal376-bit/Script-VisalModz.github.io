@@ -1,373 +1,251 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Script MLBB Visal Modz</title>
-
-<style>
-.trailer{
-width:100%;
-padding:10px;
-background:black;
-box-sizing:border-box;
-}
-
-.trailer iframe{
-border-radius:10px;
-}
-
-body{
-margin:0;
-font-family:Arial;
-background:#990000;
-color:white;
-}
-
-header{
-background:#990000;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
-
-.search{
-padding:15px;
-text-align:center;
-}
-
-.search input{
-width:80%;
-padding:10px;
-border:none;
-border-radius:20px;
-outline:none;
-background:#330000;
-color:white;
-}
-
-.container{
-padding:15px;
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-gap:15px;
-}
-
-.card{
-background:#000000;
-border-radius:12px;
-padding:10px;
-text-align:center;
-cursor:pointer;
-transition: all 0.4s ease, transform 0.3s ease;
-opacity:0;
-transform: translateY(20px);
-}
-
-.card.show{
-opacity:1;
-transform: translateY(0);
-}
-
-.card:hover{
-transform: translateY(-10px) scale(1.08);
-box-shadow:0 8px 20px rgba(252,163,17,0.5);
-}
-
-.card img{
-width:100%;
-height:120px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.btn{
-background:linear-gradient(45deg,#ff4d4d,#ff0000);
-border:none;
-padding:10px;
-margin-top:8px;
-border-radius:8px;
-font-weight:bold;
-color:white;
-width:100%;
-cursor:pointer;
-}
-
-.back{
-margin:15px;
-padding:10px;
-background:#9999;
-border:none;
-border-radius:8px;
-color:white;
-cursor:pointer;
-}
-
-footer{
-text-align:center;
-padding:15px;
-font-size:14px;
-color:#fff1c2;
-background:#990000;
-}
-
-#loader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#9999;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-font-size:24px;
-color:#fca311;
-font-weight:bold;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISAL WEB-TERMUX PRO</title>
+    <!-- Standard Terminal UI -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.1.0/css/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.1.0/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.js"></script>
+    <!-- Python Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/pyodide@0.23.4/pyodide.js"></script>
+    
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; background: #000; overflow: hidden; }
+        #terminal-container { width: 100%; height: 100%; }
+        .boot-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 100;
+            color: #0f0; font-family: 'Courier New', monospace;
+        }
+        .loading-bar { width: 200px; height: 2px; background: #222; margin-top: 20px; position: relative; }
+        .progress { width: 0%; height: 100%; background: #0f0; transition: 0.3s; }
+    </style>
 </head>
-
 <body>
 
-<div id="loader">Loading...</div>
+    <div id="boot" class="boot-screen">
+        <pre style="font-size: 8px;">
+ __      _______  _____          _      
+ \ \    / /_   _|/ ____|   /\   | |     
+  \ \  / /  | | | (___    /  \  | |     
+   \ \/ /   | |  \___ \  / /\ \ | |     
+    \  /   _| |_ ____) |/ ____ \| |____ 
+     \/   |_____|_____//_/    \_\______|
+        </pre>
+        <div id="status">INITIALIZING KERNEL...</div>
+        <div class="loading-bar"><div id="progress" class="progress"></div></div>
+    </div>
 
-<header id="title">
-Script MLBB Visal Modz
-</header>
+    <div id="terminal-container"></div>
 
-<div class="trailer">
-<iframe
-width="100%"
-height="220"
-src="https://www.youtube.com/embed/kutLBPp4XUY?autoplay=1&mute=1&controls=0&rel=0"
-allow="autoplay; encrypted-media"
-allowfullscreen>
-</iframe>
-</div>
+    <script>
+        // --- 1. SETUP TERMINAL ---
+        const term = new Terminal({
+            cursorBlink: true,
+            theme: { background: '#000000', foreground: '#00ff00', cursor: '#0f0' },
+            fontSize: 13,
+            fontFamily: 'Courier New'
+        });
+        const fitAddon = new FitAddon.FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(document.getElementById('terminal-container'));
+        fitAddon.fit();
 
-<div class="search">
-<input type="text" placeholder="Cari Hero..." onkeyup="searchHero(this.value)">
-</div>
+        // --- 2. VIRTUAL FILE SYSTEM (VFS) ---
+        // Kita simpan file di LocalStorage supaya nggak hilang pas refresh
+        let vfs = JSON.parse(localStorage.getItem('visal_vfs')) || {
+            '/': { type: 'dir', content: {} },
+            '/home': { type: 'dir', content: {} },
+            '/home/readme.txt': { type: 'file', content: 'Welcome to Visal Web-Termux.\nUse "vpkg" to install tools.\nUse "python" to run scripts.' }
+        };
+        let currentPath = '/home';
 
-<div class="container" id="heroList"></div>
+        function saveVFS() {
+            localStorage.setItem('visal_vfs', JSON.stringify(vfs));
+        }
 
-<footer>
-<p>© 2026 Visal.com</p>
-<p>⚠ Website ini masih tahap Beta</p>
-<p>Wajar jika masih ada error</p>
-</footer>
+        // --- 3. INITIALIZE PYTHON ---
+        let pyodide;
+        async function boot() {
+            const status = document.getElementById('status');
+            const progress = document.getElementById('progress');
+            
+            try {
+                status.innerText = "LOADING PYTHON ENGINE (WASM)...";
+                progress.style.width = "40%";
+                pyodide = await loadPyodide();
+                
+                status.innerText = "MOUNTING FILE SYSTEM...";
+                progress.style.width = "80%";
+                
+                setTimeout(() => {
+                    document.getElementById('boot').style.display = 'none';
+                    term.writeln("\x1b[1;32mVISAL WEB-TERMUX PRO [BUILD 2026.03]\x1b[0m");
+                    term.writeln("Virtual Environment Ready. No root required.");
+                    term.writeln("Type 'help' for internal commands.");
+                    prompt();
+                }, 500);
+            } catch (e) {
+                status.innerText = "BOOT FAILED. CHECK INTERNET.";
+            }
+        }
 
-<header>
-<h6>MENU</h6>
-<nav>
-<a href="index.html" style="color:white;margin-right:10px;">Home</a>
-<a href="https://www.youtube.com/@VisalModz" style="color:white;margin-right:10px;">Youtube</a>
-<a href="https://saweria.co/Visal111" style="color:white;">Dukung Kami</a>
-</nav>
-</header>
+        // --- 4. COMMAND LOGIC ---
+        let inputBuffer = '';
+        term.onData(data => {
+            const char = data;
+            if (char === '\r') { // Enter
+                term.writeln('');
+                handleCommand(inputBuffer);
+                inputBuffer = '';
+            } else if (char === '\u007F') { // Backspace
+                if (inputBuffer.length > 0) {
+                    inputBuffer = inputBuffer.slice(0, -1);
+                    term.write('\b \b');
+                }
+            } else {
+                inputBuffer += char;
+                term.write(char);
+            }
+        });
 
-<script>
+        async function handleCommand(line) {
+            const args = line.trim().split(' ');
+            const cmd = args[0].toLowerCase();
 
-let heroes=[
+            switch(cmd) {
+                case 'help':
+                    term.writeln("Core: ls, cd, mkdir, nano, rm, cat, clear, uname");
+                    term.writeln("System: vpkg (Visal Package Manager), python [file]");
+                    break;
+                case 'ls':
+                    const dir = getDir(currentPath);
+                    Object.keys(dir.content).forEach(name => {
+                        const item = dir.content[name];
+                        term.writeln(item.type === 'dir' ? `\x1b[1;34m${name}/\x1b[0m` : name);
+                    });
+                    break;
+                case 'mkdir':
+                    if(args[1]) createDir(args[1]);
+                    else term.writeln("Usage: mkdir [name]");
+                    break;
+                case 'cd':
+                    if(args[1]) changeDir(args[1]);
+                    break;
+                case 'cat':
+                    if(args[1]) term.writeln(readFile(args[1]) || "File not found.");
+                    break;
+                case 'nano':
+                    if(args[1]) {
+                        const content = prompt("Masukkan isi file (Simple Editor):");
+                        if(content !== null) createFile(args[1], content);
+                    } else term.writeln("Usage: nano [filename]");
+                    break;
+                case 'uname':
+                    term.writeln("Linux Visal-Pro-WASM 5.10.x-android-emulated");
+                    break;
+                case 'clear':
+                    term.clear();
+                    break;
+                case 'vpkg':
+                    handleVPKG(args);
+                    break;
+                case 'python':
+                    if(args[1]) {
+                        const code = readFile(args[1]);
+                        if(code) await runPython(code);
+                        else term.writeln("Error: Script not found.");
+                    } else {
+                        term.writeln("Python 3.11.2 (WebAssembly Shell)");
+                        term.writeln("Type your code directly to test logic.");
+                    }
+                    break;
+                default:
+                    if(line.trim() !== "") {
+                        // Jika bukan perintah internal, coba jalankan sebagai kode Python instan
+                        await runPython(line);
+                    }
+            }
+            prompt();
+        }
 
-{
-name:"Suyou",
-img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRva2u15YNVlHWzOuD2G_kcdJNuhE2J94Pu6Pd-nTlzKNXFGdnxLE_Z7AIu&s=10",
-skins:[
-{name:"Sasuke",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8FQwNx2nbnOgKWJy2VQP4Qo4st8sOkj5OlGZYq1Hn9kyNjN6bFIU-RlM&s=10",link:"https://sfile.co/s1VB4HbxS5A"},
-{name:"Tidak Ditemukan",img:"Visal.png",link:"#"}
-]
-},
+        // --- 5. HELPER FUNCTIONS (REAL VFS) ---
+        function prompt() {
+            term.write(`\r\n\x1b[1;32mvisal@termux\x1b[0m:\x1b[1;34m${currentPath}\x1b[0m$ `);
+        }
 
-{
-name:"Xavier",
-img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROv5u0cxM9yg3B-NLEzVb0_cOs6mjy61qzqTNmkHNHuz_4SIFY_dbwWE9f&s=10",
-skins:[
-{name:"Gojo Satoru",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC2vXn28C4OeDvK3w-A0nKd6GXEuWqS5ihzf2fvnAhJu2sQYRt0AIE6Dgg&s=10",link:"https://sfile.co/fJtB7GmjqQX"},
-{name:"Collector",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHv3WxNUuk8cw5_EDHrLuVlG--Z-ZCWlkZXhkbFEv6jURvnzVSwL_TwcY&s=10",link:"https://sfile.co/kudVIfFk8lk"},
-{name:"BTC",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBubDv6gqyN7HhLfTQQPsTQxrz5vFCINCIIqer10FiwMIRgpN0tCytYqVI&s=10",link:"https://sfile.co/sIGLOcikap4"}
-]
-},
+        function getDir(path) {
+            let parts = path.split('/').filter(p => p !== "");
+            let current = vfs['/'];
+            for(let p of parts) {
+                current = current.content[p];
+            }
+            return current;
+        }
 
-{
-name:"Julian",
-img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmxDt9gaz_ueWabBp64LV7VQTxsTbtwstdd1vCuZZlmWmCYhDO9QBHkMw&s=10",
-skins:[
-{name:"Megumi Fushiguro",img:"https://assets.pikiran-rakyat.com/crop/0x0:0x0/1200x675/photo/2025/02/07/539996748.jpg",link:"https://sfile.co/pcL8vpovua9"},
-{name:"Mesty meow",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73IeUTPxopoYQ2bhuw_6fQeyH9vCsBvlzi5r6bG2uzNaPjROrrjqMdvww&s=10",link:"https://sfile.co/Zlf8xzQbOXO"},
-{name:"Hunter X Hunter",img:"https://d1x91p7vw3vuq8.cloudfront.net/itemku-upload/20241231/lgduw01bwkzo0diuk3jlj_thumbnail.jpg",link:"https://sfile.co/YWYnElxWuOX"},
-{name:"Itachi",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjbLsloQhfW3Zp06bnG5jivWjWhJ5BbNKQUS--khJbsIrb2a1KF6MKEDE&s=10",link:"https://sfile.co/gMUO9n2T3kO"}
-]
-},
+        function createDir(name) {
+            const dir = getDir(currentPath);
+            dir.content[name] = { type: 'dir', content: {} };
+            saveVFS();
+            term.writeln(`Directory '${name}' created.`);
+        }
 
-{
-name:"Lukas",
-img:"https://cdn.oneesports.id/cdn-data/sites/2/2024/12/MLBB_Lukas_splashart-1024x576-1-1.jpg",
-skins:[
-{ name:"Naruto", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmrjXxxxRt9uYTmwzaI6Buax6_dawefg4LQcH48BuzRi4mJmw6YcKPo-YA&s=10", link:"https://sfile.co/S3UqbOaxdjx"}
-]
-},
+        function createFile(name, content) {
+            const dir = getDir(currentPath);
+            dir.content[name] = { type: 'file', content: content };
+            saveVFS();
+            term.writeln(`File '${name}' saved.`);
+        }
 
-{
-name:"Gusion",
-img:"https://api.duniagames.co.id/optimize-image?url=https%3A%2F%2Fapi.duniagames.co.id%2Fapi%2Fcontent%2Fupload%2Ffile%2F17363837011579493249.jpg&format=webp&width=736&signature=ba9a7032ec6f7d95409c09a7317231be2f38103f6da0d29357cd2bf01b556532",
-skins:[
-{ name:"Minato", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw666knWmuAY79eGtOwpMEgVGFXEUbndPIeR0lnl4A7A&s=10", link:"https://sfile.co/VYJtIBe2P8Z" },
-{ name:"Legend", img:"https://i.ytimg.com/vi/h1zWYXgg5xM/mqdefault.jpg", link:"https://sfile.co/T5aQnc9RP8l" },
-{ name:"Collector", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUit6aOtARSSiNF5pnRMCsV7A6V7TKEoIahYb2Bfu0m3TENf30GpknwpNR&s=10", link:"https://sfile.co/nkAfUeYtUF3" },
-{ name:"11.11", img:"https://d1x91p7vw3vuq8.cloudfront.net/itemku-upload/2025115/huha9smhy99r6s5szv23.jpg", link:"https://sfile.co/XuQ2Brf5wWU" },
-{ name:"Starlight Spider", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1ztjtf8kCy0_j_gLB0_VfK-rzVHzGiN1Sq4LUXwK6vycY2g3bQnoAIBU&s=10", link:"https://sfile.co/PwO6Xqe3bar" },
-{ name:"K", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrc2Vk-s_AbuwNAfRfQhDzL1FtIZBWimKbiJ6FSQFvEA&s", link:"https://sfile.co/TJYW1vYqN5J"}
-]
-},
+        function readFile(name) {
+            const dir = getDir(currentPath);
+            return dir.content[name] ? dir.content[name].content : null;
+        }
 
-{
-name:"Fany",
-img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEZ3yIcvuJK_mCvgCUL1MhBtFGBuiVGnbCNcNRFQp7Sw&s=10",
-skins:[
-{ name:"Luckybox", img:"https://imgop.itemku.com/?url=https%3A%2F%2Fd1x91p7vw3vuq8.cloudfront.net%2Fweb%2F20210224%2Fb086d8292cd40b4bac05e3fb398136384202e8fe2e8aba232c5327afc05e05fa_thumb.jpg&w=1033&q=10", link:"https://sfile.co/h17UaKElhOX" },
-{ name:"Legend", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9pSJyWStdDzQNOPWahsIumOBuvYFUU2Qx6G2ElTHvuAd3dMFpBgwN7Olb&s=10", link:"#"}
-]
-},
+        function changeDir(name) {
+            if(name === '..') {
+                if(currentPath !== '/') {
+                    let p = currentPath.split('/');
+                    p.pop();
+                    currentPath = p.join('/') || '/';
+                }
+            } else {
+                const dir = getDir(currentPath);
+                if(dir.content[name] && dir.content[name].type === 'dir') {
+                    currentPath = (currentPath === '/' ? '' : currentPath) + '/' + name;
+                } else {
+                    term.writeln("Not a directory.");
+                }
+            }
+        }
 
-{
-name:"Yin sun sin",
-img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO3IJiKOsDOXrWCBweR8L_xIEHrGdwSfkvIFkiVw5ryA&s=10",
-skins:[
-{ name:"Collector", img:"https://api.duniagames.co.id/optimize-image?url=https%3A%2F%2Fapi.duniagames.co.id%2Fapi%2Fcontent%2Fupload%2Ffile%2F2353724541745218600.jpg&format=webp&width=736&signature=1682ae6fcab476aebd82f16471fd472c57fc049c54d22c9d0bbb7e546556a7e9", link:"https://sfile.co/HzYjXeIp0WZ" },
-{ name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
-]
-},
+        async function runPython(code) {
+            try {
+                let result = await pyodide.runPythonAsync(code);
+                if(result !== undefined) term.writeln(String(result));
+            } catch(e) {
+                term.writeln(`\x1b[31mPythonError:\x1b[0m ${e.message}`);
+            }
+        }
 
-{
-name:"Chou",
-img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xASwP2x4CxLfPrCYMoShy9tj57ERb1g45QWvXjTNXLewbsi4_K4BU8c&s=10",
-skins:[
-{ name:"Lori Yagami", img:"https://i.pinimg.com/736x/43/2a/4c/432a4cdb707ec6767e116ff9bb3f853d.jpg", link:"https://sfile.co/wrumqTa6vba" },
-{ name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
-]
-},
+        // Simulasi Package Manager
+        function handleVPKG(args) {
+            if(args[1] === 'install') {
+                term.writeln(`[*] Fetching ${args[2]} from Visal Repository...`);
+                setTimeout(() => {
+                    term.writeln(`[+] Package ${args[2]} installed successfully (VASM-Module).`);
+                }, 1000);
+            } else {
+                term.writeln("Usage: vpkg install [package]");
+            }
+        }
 
-{
-name:"Lancelot",
-img:"https://cdn.oneesports.gg/cdn-data/2021/09/MLBB_Lancelot.jpg",
-skins:[
-{ name:"Aamon", img:"https://i.pinimg.com/736x/43/2a/4c/432a4cdb707ec6767e116ff9bb3f853d.jpg", link:"#" },
-{ name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
-]
-},
-
-{
-name:"Alpha",
-img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJExIziM4_ZMtBpDl7OWWyzOXBTvoasfT1iTZ6cHVycw&s=10",
-skins:[
-{ name:"Legend", img:"https://semestagame.com/wp-content/uploads/2025/04/Gky3bvTaoAU3Jd0.jpg", link:"https://sfile.co/WPnX7TX5XOy" },
-{ name:"Tidak Ditemukan", img:"Visal.png", link:"#"}
-]
-},
-
-]
-
-let heroContainer=document.getElementById("heroList")
-
-function showHeroes(){
-heroContainer.innerHTML=""
-
-heroes.forEach(hero=>{
-heroContainer.innerHTML+=`
-<div class="card" onclick="openHero('${hero.name}')">
-<img src="${hero.img}">
-<h3>${hero.name}</h3>
-</div>
-`
-})
-
-fadeInCards()
-}
-
-function openHero(heroName){
-
-let hero=heroes.find(h=>h.name==heroName)
-
-document.getElementById("title").innerText="Skin "+hero.name
-
-heroContainer.innerHTML=`<button class="back" onclick="showHeroes()">← Kembali</button>`
-
-hero.skins.forEach(skin=>{
-heroContainer.innerHTML+=`
-<div class="card">
-<img src="${skin.img}">
-<h3>${skin.name}</h3>
-<button class="btn" onclick="download('${skin.link}')">Download</button>
-</div>
-`
-})
-
-fadeInCards()
-
-}
-
-function searchHero(text){
-
-let cards=document.querySelectorAll(".card")
-
-cards.forEach(card=>{
-
-let name=card.innerText.toLowerCase()
-
-if(name.includes(text.toLowerCase())){
-card.style.display="block"
-}else{
-card.style.display="none"
-}
-
-})
-
-}
-
-function fadeInCards(){
-
-const cards=document.querySelectorAll(".card")
-
-cards.forEach((card,index)=>{
-
-setTimeout(()=>{
-
-card.classList.add("show")
-
-},index*150)
-
-})
-
-}
-
-window.addEventListener("load",()=>{
-
-setTimeout(()=>{
-
-document.getElementById("loader").style.display="none"
-
-},1000)
-
-})
-
-function download(link){
-
-if(link==="#"){
-alert("File tidak tersedia")
-return
-}
-
-window.open(link,"_blank")
-
-}
-
-showHeroes()
-
-</script>
-
+        window.onload = boot;
+        window.onresize = () => fitAddon.fit();
+    </script>
 </body>
 </html>
+
